@@ -38,5 +38,8 @@ void solve(){
     compute the shortest path to 0.
     
     ans = dp[n]
+
+
+    Although i want to note that you can just use greedy for this, pick the largest digit for each number
     */
 }
