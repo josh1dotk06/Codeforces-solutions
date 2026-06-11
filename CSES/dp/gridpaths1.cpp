@@ -48,6 +48,8 @@ void solve(){
     We recursively add by getting the dp values from the cells to
     the bottom and right of x,y (to simulate only being able to
     move down or to the right)
+
+    Type: This is a standard Grid DP problem
     */
     
 }
