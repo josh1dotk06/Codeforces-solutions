@@ -9,16 +9,24 @@ void solve(){
     cin >> x >> y;
 
     //r strings, each element represents a row, consisting of c characters (not defined tho)
-    vector<string> grid(r+1);
+    vector<string> rows(r+1);
 
     
     for(int i = 1; i <= r; i++){
-        cin >> grid[i];
+        cin >> rows[i];
     }
 
     //i guess you just simulate it
     //you can get stuck in an infinite loop of left turns, so you gotta check a upper bound
     //just see if you get within the destination within r*c*100 tries
+
+    vector<vector<char>> grid(r+1, vector<char>(c+1));
+    for(int i = 1; i <= r; i++){
+        for(int j = 1; j <= c; j++){
+            //fix string 0 indexing to 1 indexing in new vec
+            grid[i][j] = rows[i][j-1];
+        }
+    }
 
     int curri = a;
     int currj = b;
@@ -27,8 +35,8 @@ void solve(){
 
     int upperbound = 0;
 
-    map<char, int> leftCorrespond;
-    leftCorrespond['R'].put()
+    // map<char, int> leftCorrespond;
+    // leftCorrespond['R'].put()
 
         //some large value, but it doesnt matter
     while(!(curri == x && currj == y)){
@@ -40,55 +48,45 @@ void solve(){
         }
         
         //left first
-        if(dir == 'R' && i-1 >= 1 && grid[curri-1][currj] == 0){ //go up
+        if(dir == 'R' && curri-1 >= 1 && grid[curri-1][currj] == '0'){ //go up
             dir = 'U';
             curri--;
         }
-        else if(dir == 'U' && j-1 >= 1 && grid[curri][currj-1] == 0){ //go left
+        else if(dir == 'U' && currj-1 >= 1 && grid[curri][currj-1] == '0'){ //go left
             dir = 'L';
             currj--;
         }
-        else if(dir == 'D' && i-1 >= 1 && grid[curri][currj+1] == 0){ //go right
+        else if(dir == 'D' && currj+1 <= c && grid[curri][currj+1] == '0'){ //go right
             dir = 'R';
             currj++;
         }
-        else if(dir == 'L' && i-1 >= 1 && grid[curri+1][currj] == 0){ //go down
+        else if(dir == 'L' && curri+1 <= r && grid[curri+1][currj] == '0'){ //go down
             dir = 'D';
             curri++;
         }
 
             
         //straight
-        else if(dir == 'L' && j-1 >= 1 && grid[curri][currj-1] == 0){ //go straight left
+        else if(dir == 'L' && currj-1 >= 1 && grid[curri][currj-1] == '0'){ //go straight left
             currj--;
         } 
-        else if(dir == 'R' && j+1 >= 1 && grid[curri][currj+1] == 0){ //go straight left
+        else if(dir == 'R' && currj+1 <= c && grid[curri][currj+1] == '0'){ //go straight left
             currj++;
         } 
-        else if(dir == 'U' && i-1 >= 1 && grid[curri-1][currj] == 0){ //go straight left
+        else if(dir == 'U' && curri-1 >= 1 && grid[curri-1][currj] == '0'){ //go straight left
             curri--;
         } 
-        else if(dir == 'D' && i+1 >= 1 && grid[curri+1][currj] == 0){ //go straight left
+        else if(dir == 'D' && curri+1 <= r && grid[curri+1][currj] == '0'){ //go straight left
             curri++;
         } 
 
 
-            
-        else if(dir == 'U' && j+1 >= 1 && grid[curri][currj+1] == 0){ //go left
-            dir = 'R';
-            currj++;
-        }
-        else if(dir == 'D' && i-1 >= 1 && grid[curri][currj-1] == 0){ //go right
-            dir = 'L';
-            currj--;
-        }
-        else if(dir == 'L' && i-1 >= 1 && grid[curri-1][currj] == 0){ //go down
-            dir = 'U';
-            curri--;
-        }
-        else if(dir == 'R' && i-1 >= 1 && grid[curri+1][currj] == 0){ //go down
-            dir = 'D';
-            curri++;
+        //must turn right otherwise
+        else{
+            if(dir == 'R') dir = 'D';
+            else if(dir == 'U') dir = 'R';
+            else if(dir == 'D') dir = 'L';
+            else if(dir == 'L') dir = 'U';
         }
 
         upperbound++;
@@ -99,7 +97,10 @@ void solve(){
 }
 
 
-//not finished yet
+//just simulate the movements on a 2d grid, the constraints are low enough
+//its possible if we exit and reach the desitnatiopn cell
+//its impossible if after some upperbound (i chose r*c*100, but r*c*4 is actually sufficient), we are still in the loop
+//r*c*4 since for each cell there are 4 directions
 
 
 signed main() {
