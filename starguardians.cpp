@@ -10,6 +10,7 @@ void solve(){
     double curravg = 0;
     double currsum = 0;
     double j = 1;
+    sort(all(problems));
     
     for(int i = n-1; i >= 0; i--){
         currsum+=problems[i];
@@ -18,7 +19,7 @@ void solve(){
         j++;
     }
 
-    cout << fixed << setprecision(1) << bestavg << endl;
+    cout << fixed << setprecision(6) << bestavg << endl;
 }
 
 //extremely basic greedy, just start with most solved problem players, and find the max
